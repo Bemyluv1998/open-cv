@@ -1,0 +1,24 @@
+import cv2
+
+# 이미지 파일 경로
+image_path = 'open cv/newjeans.jpg'  
+
+# 이미지 불러오기
+image = cv2.imread(image_path)
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# 얼굴 감지용 분류기 불러오기
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+# 얼굴 감지
+faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+# 감지된 얼굴에 사각형과 텍스트 추가
+for (x, y, w, h) in faces:
+    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 3)
+    cv2.putText(image, 'Face', (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+
+# 결과 이미지 출력
+cv2.imshow('Detected Faces', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

@@ -1,0 +1,28 @@
+import cv2
+import numpy as np
+
+# 이미지 파일 경로
+image_path = 'open cv/RGB.png'
+
+# 이미지 불러오기
+image = cv2.imread(image_path)
+hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+# 빨간색 범위 설정
+lower_red = np.array([0, 100, 100])
+upper_red = np.array([10, 255, 255])
+mask1 = cv2.inRange(hsv, lower_red, upper_red)
+
+lower_red = np.array([160, 100, 100])
+upper_red = np.array([179, 255, 255])
+mask2 = cv2.inRange(hsv, lower_red, upper_red)
+
+mask = mask1 + mask2
+
+# 이미지에서 빨간색 영역 찾기
+red_areas = cv2.bitwise_and(image, image, mask=mask)
+
+# 결과 이미지 출력
+cv2.imshow('Red Detection', red_areas)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

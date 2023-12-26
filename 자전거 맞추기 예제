@@ -1,0 +1,24 @@
+# 이미지 파일 경로
+image_path = 'open cv/bicycle.jpg'  
+
+# 이미지 불러오기
+image = cv2.imread(image_path)
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 자전거 검출용 클래스 파일 경로
+cascade_path = cv2.data.haarcascades + 'haarcascade_bicycle.xml'
+
+# 자전거 검출용 분류기 초기화
+bicycle_cascade = cv2.CascadeClassifier(cascade_path)
+
+# 자전거 검출
+bicycles = bicycle_cascade.detectMultiScale(image_rgb, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+# 검출된 자전거 주위에 경계 상자 그리기
+for (x, y, w, h) in bicycles:
+    cv2.rectangle(image_rgb, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+# 결과 이미지 출력
+cv2.imshow('Bicycle Detection', cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR))
+cv2.waitKey(0)
+cv2.destroyAllWindows()ㄴ
